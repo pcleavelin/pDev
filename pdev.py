@@ -62,15 +62,3 @@ args = parser.parse_args()
 
 if args.install is not None:
     install_tools(args.install)
-
-# Ideas
-# Add Terminal(s) to tools
-# Add support for other text editors and the ability to set a default one
-# Add support for uploading/downloading editor extensions/settings to/from custom server
-# Ability to choose python version
-# Save workspace folder(s) and ability to open folder with editor
-# 'Create Project' command line option (support for rust,node,reactjs,react native,C#,c/c++,)
-#       Can automatically setup default project ready to run/debug
-# 'Open Project' command line option
-# 'Run/Debug' command line option
-#
