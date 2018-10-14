@@ -65,7 +65,7 @@ def add_alias():
     elif platform == 'darwin':
         print('Adding alias for macOS not supported yet :(');
     elif platform == 'win32':
-        profile_path = os.path.join(os.path.expanduser('~'), 'Documents/WindowsPowerShell/profile.ps1')
+        profile_path = os.path.join(os.path.expanduser('~'), 'Documents\\WindowsPowerShell\\profile.ps1')
 
         with open(profile_path, 'a') as _file:
             _file.write('function pdev_func {Invoke-Expression "'+ pdev_dir + '\python\python.exe pdev.py -h"}\n')

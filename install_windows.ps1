@@ -24,7 +24,7 @@ mkdir $directory_path
 
 # Download pDev
 try {
-    Invoke-WebRequest -Uri $pdev_uri -OutFile $pdev_exec_path
+    Invoke-WebRequest -Uri $pdev_uri -OutFile $pdev_exec_path -Headers @{"Cache-Control"="no-cache"}
 } catch {
     "Failed to download pDev script from: $pdev_uri"
     exit
