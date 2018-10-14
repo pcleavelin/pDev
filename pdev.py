@@ -15,8 +15,8 @@ def download_extract_zip(uri, out_path):
         shutil.copyfileobj(response, out_file)
 
     # Make sure to create directory first if it doesn't already exists
-    if not os.path.exists(out_file):
-        os.makedirs(out_file)
+    if not os.path.exists(out_path):
+        os.makedirs(out_path)
 
     print('Extracting to directory...', end='')
     with zipfile.ZipFile('tmp.zip', 'r') as zip_ref:
@@ -38,7 +38,7 @@ def install_vscode():
     print('VSCode installed to ' + vscode_dir)
 
 def install_tools(tools=None):
-    if tools is None:
+    if 'all' in tools:
         print('Installing full pDev environment...')
         install_vscode()
     else:
@@ -62,3 +62,5 @@ args = parser.parse_args()
 
 if args.install is not None:
     install_tools(args.install)
+else:
+    print("The pDev Environment")

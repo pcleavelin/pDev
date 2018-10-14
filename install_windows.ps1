@@ -1,3 +1,8 @@
+$innvocation = (Get-Variable MyInvocation).Value
+$directory_path = Split-Path $innvocation.MyCommand.Path
+$python_zip_dir = $directory_path + "\python.zip"
+$python_install_dir = $directory_path + "\python"
+$python_exe_dir = $python_install_dir + "\python.exe"
 $python3_uri = 'https://www.python.org/ftp/python/3.6.5/python-3.6.5-embed-amd64.zip'
 $pdev_python_installer_uri = ''
 $tools = 'all'
@@ -22,11 +27,14 @@ try {
 }
 
 # Store portable python to 'python' directory
-mkdir python
-Unzip python.zip python
+try {
+    mkdir python
+} finally {
+    Unzip $python_zip_dir $python_install_dir
+}
 
 # Remove zipped python file
-del python.zip
+Remove-Item "python.zip"
 
 # Pass control to cross-platform installer
 .\python\python.exe pdev.py --install $tools
