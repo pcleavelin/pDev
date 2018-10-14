@@ -50,11 +50,13 @@ def install_tools(tools=None):
         if 'vscode' in tools:
             install_vscode()
         if 'rust' in tools:
-            print('Rust install not supported')
+            print('rust install not supported')
             # install_rust()
         if 'node' in tools:
+            print('node install not supported')
             # install_node()
         if 'yarn' in tools:
+            print('yarn install not supported')
             # install_yarn()
 
 def add_alias():

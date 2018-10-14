@@ -6,7 +6,7 @@ $python_exe_path = $python_install_dir + "\python.exe"
 $python3_uri = 'https://www.python.org/ftp/python/3.6.5/python-3.6.5-embed-amd64.zip'
 $pdev_uri = 'https://raw.githubusercontent.com/pcleavelin/pDev/master/pdev.py'
 $tools = 'all'
-$pdev_run_cmd = "$python_exe_path $pdev_exec_path --install $tools"
+$pdev_run_cmd = "$python_exe_path $pdev_exec_path --install $tools -alias"
 
 # Set TSL protocol to version 1.2
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
