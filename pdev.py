@@ -65,9 +65,11 @@ def add_alias():
     elif platform == 'darwin':
         print('Adding alias for macOS not supported yet :(');
     elif platform == 'win32':
-        profile_path = os.path.join(os.path.expanduser('~'), 'Documents\\WindowsPowerShell\\profile.ps1')
+        profile_path = os.path.join(os.path.expanduser('~'), 'Documents\\WindowsPowerShell')
+        if not os.path.exists(profile_path):
+            os.makedirs(profile_path)
 
-        with open(profile_path, 'a') as _file:
+        with open(profile_path + "\\profile.ps1", 'a') as _file:
             _file.write('function pdev_func {Invoke-Expression "'+ pdev_dir + '\python\python.exe pdev.py -h"}\n')
             _file.write('Set-Alias -Name pdev -Value pdev_func\n');
         print('Added PowerShell alias \'pdev\'. Restart shell to see changes')
