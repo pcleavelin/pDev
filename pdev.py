@@ -70,7 +70,7 @@ def add_alias():
             os.makedirs(profile_path)
 
         with open(profile_path + "\\profile.ps1", 'a') as _file:
-            _file.write('function pdev_func {Invoke-Expression "'+ pdev_dir + '\python\python.exe pdev.py -h"}\n')
+            _file.write('function pdev_func {Invoke-Expression "'+ pdev_dir + '\python\python.exe pdev.py $args"}\n')
             _file.write('Set-Alias -Name pdev -Value pdev_func\n');
         print('Added PowerShell alias \'pdev\'. Restart shell to see changes')
 
