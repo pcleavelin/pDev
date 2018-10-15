@@ -15,20 +15,6 @@ sys.path.append(pdev_dir)
 import pdev_tools
 from pdev_tools import *
 
-def install_rust():
-    print('Installing rust...')
-    if platform == 'linux' or platform == 'linux2':
-        print('Rust installation not supported for linux yet :(')
-    elif platform == 'darwin':
-        print('Rust installation not supported for macOS yet :(')
-    elif platform == 'win32':
-        rust_path = os.path.join(pdev_dir, 'rustup-init.exe')
-        download_file(rust_uri, rust_path)
-        if subprocess.call(rust_path) != 0:
-            print('Rust installation failed?')
-        else:
-            print('Done')
-
 def install_tools(tools=None):
     if 'all' in tools:
         print('Installing full pDev environment...')
@@ -37,7 +23,7 @@ def install_tools(tools=None):
         print('Done')
     else:
         for tool in pdev_tools.all_tools:
-            if tool.name in tools:
+            if tool.name.lower() in tools:
                 tool.install(pdev_dir)
 
 
