@@ -3,49 +3,17 @@ import urllib.request
 import shutil
 import zipfile
 import subprocess
+import sys
 from argparse import ArgumentParser
 from sys import platform
 
+# This is used because the embedded python that is used doesn't
+# properly set sys.path
 pdev_dir = os.path.join(os.path.expanduser('~'), ('pdev'))
+sys.path.append(pdev_dir)
 
-# pDev Tools
-vscode_uri = 'https://go.microsoft.com/fwlink/?Linkid=850641'
-vscode_extension_list_uri = '<insert github link here>'
-rust_uri = 'https://win.rustup.rs'
-
-def download_file(uri, out_path):
-    print('Downloading...')
-    with urllib.request.urlopen(uri) as response, open(out_path, 'wb') as out_file:
-        shutil.copyfileobj(response, out_file)
-
-
-def download_extract_zip(uri, out_path):
-    tmp_zip = os.path.join(pdev_dir, 'tmp.zip')
-    download_file(uri, tmp_zip)
-
-    # Make sure to create directory first if it doesn't already exists
-    if not os.path.exists(out_path):
-        os.makedirs(out_path)
-
-    print('Extracting to directory...', end='')
-    with zipfile.ZipFile(tmp_zip, 'r') as zip_ref:
-        zip_ref.extractall(out_path)
-    
-    if os.path.exists(tmp_zip):
-        os.remove(tmp_zip)
-    print('Done')
-
-def install_vscode():
-    print('Installing VSCode...')
-    download_extract_zip(vscode_uri, 'vscode')
-
-    print('Creating data folder...', end='')
-    if not os.path.exists('vscode/data'):
-        os.makedirs('vscode/data')
-    print('Done')
-
-    vscode_dir = os.path.join(pdev_dir, 'vscode')
-    print('VSCode installed to ' + vscode_dir)
+import pdev_tools
+from pdev_tools import *
 
 def install_rust():
     print('Installing rust...')
@@ -64,19 +32,14 @@ def install_rust():
 def install_tools(tools=None):
     if 'all' in tools:
         print('Installing full pDev environment...')
-        install_vscode()
+        for tool in pdev_tools.all_tools:
+            tool.install(pdev_dir)
         print('Done')
     else:
-        if 'vscode' in tools:
-            install_vscode()
-        if 'rust' in tools:
-            install_rust()
-        if 'node' in tools:
-            print('node install not supported')
-            # install_node()
-        if 'yarn' in tools:
-            print('yarn install not supported')
-            # install_yarn()
+        for tool in pdev_tools.all_tools:
+            if tool.name in tools:
+                tool.install(pdev_dir)
+
 
 def add_alias():
     if platform == 'linux' or platform == 'linux2':
@@ -89,21 +52,25 @@ def add_alias():
             os.makedirs(profile_path)
 
         with open(profile_path + "\\profile.ps1", 'a') as _file:
-            _file.write('function pdev_func {Invoke-Expression "'+ pdev_dir + '\python\python.exe pdev.py $args"}\n')
+            _file.write('function pdev_func {Invoke-Expression "'+ pdev_dir + '\\python\\python.exe pdev.py $args"}\n')
             _file.write('Set-Alias -Name pdev -Value pdev_func\n')
         print('Added PowerShell alias \'pdev\'. Restart shell to see changes')
 
 def tool_list(string):
-    values = string.split(',')
+    values = string.split('/')
     return values
 
 parser = ArgumentParser(description='The pDev environment')
 parser.add_argument('--install', metavar='TOOLS', type=tool_list, help='List of tools to install. \'--install all\' for full installation')
-parser.add_argument('-alias', action='store_true', help='Creates a \'pdev\' alias for your terminal.')
+
+command_parser = parser.add_subparsers(title='Tool Commands', dest='toolcmd', help='Tool Commands')
+for tool in pdev_tools.all_tools:
+    tool.init_argparser(command_parser)
 
 args = parser.parse_args()
 
 if args.install is not None:
     install_tools(args.install)
-if args.alias:
-    add_alias()
+else:
+    for tool in pdev_tools.all_tools:
+        tool.parse_args(args, pdev_dir)
