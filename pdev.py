@@ -12,6 +12,7 @@ from sys import platform
 pdev_dir = os.path.join(os.path.expanduser('~'), ('pdev'))
 sys.path.append(pdev_dir)
 
+
 import pdev_tools
 from pdev_tools import *
 
@@ -38,7 +39,7 @@ def add_alias():
             os.makedirs(profile_path)
 
         with open(profile_path + "\\profile.ps1", 'a') as _file:
-            _file.write('function pdev_func {Invoke-Expression "'+ pdev_dir + '\\python\\python.exe pdev.py $args"}\n')
+            _file.write('function pdev_func {Invoke-Expression "' + pdev_dir + '\\python\\python.exe ' + pdev_dir + '\\pdev.py $args"}\n')
             _file.write('Set-Alias -Name pdev -Value pdev_func\n')
         print('Added PowerShell alias \'pdev\'. Restart shell to see changes')
 
@@ -47,7 +48,8 @@ def tool_list(string):
     return values
 
 parser = ArgumentParser(description='The pDev environment')
-parser.add_argument('--install', metavar='TOOLS', type=tool_list, help='List of tools to install. \'--install all\' for full installation')
+parser.add_argument('--install', metavar='TOOLS', type=tool_list, help='List of tools to install separated by \'/\'. \'--install all\' for full installation')
+parser.add_argument('--alias', action='store_true', help='Add alias to terminal')
 
 command_parser = parser.add_subparsers(title='Tool Commands', dest='toolcmd', help='Tool Commands')
 for tool in pdev_tools.all_tools:
@@ -57,6 +59,8 @@ args = parser.parse_args()
 
 if args.install is not None:
     install_tools(args.install)
+elif args.alias == True:
+    add_alias()
 else:
     for tool in pdev_tools.all_tools:
         tool.parse_args(args, pdev_dir)
