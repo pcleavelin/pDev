@@ -59,8 +59,8 @@ args = parser.parse_args()
 
 if args.install is not None:
     install_tools(args.install)
-elif args.alias == True:
+if args.alias == True:
     add_alias()
-else:
-    for tool in pdev_tools.all_tools:
-        tool.parse_args(args, pdev_dir)
+
+for tool in pdev_tools.all_tools:
+    tool.parse_args(args, pdev_dir)
