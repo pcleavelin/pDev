@@ -23,7 +23,7 @@ def install_tools(tools=None):
         print('Done')
     else:
         for tool in pdev_tools.all_tools:
-            if tool.name in tools:
+            if tool.name.lower() in tools:
                 tool.install(pdev_dir)
 
 

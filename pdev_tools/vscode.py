@@ -86,7 +86,6 @@ class PDevTool_VSCode():
         code_parser.add_argument('--install-settings', action='store_true', help='Install VSCode user settings')
 
     def parse_args(self, args, dir):
-        print(args)
         if args.toolcmd == 'code':
             if args.install_ext:
                 self.install_extensions(dir)
