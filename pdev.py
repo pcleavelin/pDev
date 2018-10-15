@@ -7,18 +7,13 @@ import sys
 from argparse import ArgumentParser
 from sys import platform
 
+# This is used because the embedded python that is used doesn't
+# properly set sys.path
 pdev_dir = os.path.join(os.path.expanduser('~'), ('pdev'))
-
 sys.path.append(pdev_dir)
 
 import pdev_tools
 from pdev_tools import *
-
-# pDev Tools
-vscode_uri = 'https://go.microsoft.com/fwlink/?Linkid=850641'
-vscode_extension_list_uri = 'https://gist.githubusercontent.com/pcleavelin/8d08dd2436aedc67f43615c1a1600da6/raw/9aa91fb16b50d31955667c479ca3df917885bf55/VSCode_Extensions.txt'
-vscode_user_settings_uri = 'https://gist.githubusercontent.com/pcleavelin/8d08dd2436aedc67f43615c1a1600da6/raw/9aa91fb16b50d31955667c479ca3df917885bf55/VSCode_Settings.json'
-rust_uri = '<insert rust curl url here>'
 
 def install_tools(tools=None):
     if 'all' in tools:
