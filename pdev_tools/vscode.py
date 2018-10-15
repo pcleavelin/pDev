@@ -89,9 +89,10 @@ class PDevTool_VSCode():
         if args.toolcmd == 'code':
             if args.install_ext:
                 self.install_extensions(dir)
-            elif args.install_settings:
+            if args.install_settings:
                 self.install_settings(dir)
-            else:
+            
+            if not args.install_ext and not args.install_settings:
                 self.open(dir)
 
 def __init_tool():

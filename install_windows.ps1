@@ -1,12 +1,13 @@
 $directory_path = $HOME + "\pdev"
+$pdev_zip_path = $directory_path + "\pdev.zip"
 $pdev_exec_path = $directory_path + "\pdev.py"
 $python_zip_path = $directory_path + "\python.zip"
 $python_install_dir = $directory_path + "\python"
 $python_exe_path = $python_install_dir + "\python.exe"
 $python3_uri = 'https://www.python.org/ftp/python/3.6.5/python-3.6.5-embed-amd64.zip'
-$pdev_uri = 'https://raw.githubusercontent.com/pcleavelin/pDev/master/pdev.py'
+$pdev_uri = 'https://github.com/pcleavelin/pDev/releases/download/v0.1.0-alpha/v0.1.0-alpha.zip'
 $tools = 'all'
-$pdev_run_cmd = "$python_exe_path $pdev_exec_path --install $tools -alias"
+$pdev_run_cmd = "$python_exe_path $pdev_exec_path --install $tools"
 
 # Set TSL protocol to version 1.2
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
@@ -24,7 +25,10 @@ mkdir $directory_path
 
 # Download pDev
 try {
-    Invoke-WebRequest -Uri $pdev_uri -OutFile $pdev_exec_path -Headers @{"Cache-Control"="no-cache"}
+    Invoke-WebRequest -Uri $pdev_uri -OutFile $pdev_zip_path -Headers @{"Cache-Control"="no-cache"}
+
+    Unzip $pdev_zip_path $directory_path
+    Remove-Item $pdev_zip_path
 } catch {
     "Failed to download pDev script from: $pdev_uri"
     exit
