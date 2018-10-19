@@ -14,6 +14,10 @@ class PDevTool_VSCode():
         self.path = 'vscode'
     
     def install(self, dir):
+        if self.is_installed(dir):
+            print('VSCode already installed')
+            return
+            
         print('Installing VSCode...')
         vscode_dir = os.path.join(dir, 'vscode')
 
@@ -27,10 +31,15 @@ class PDevTool_VSCode():
 
         print('VSCode installed to ' + vscode_dir)
 
-    def install_extensions(self, dir):
+    def is_installed(self, dir):
         # Should probably look for executable file, but whatever
         vscode_path = os.path.join(dir, 'vscode')
         if not os.path.exists(vscode_path):
+            return False
+        return True
+
+    def install_extensions(self, dir):
+        if self.is_installed(dir) == False:
             print('VSCode not installed')
             return
 
@@ -49,9 +58,7 @@ class PDevTool_VSCode():
         print('Done')
 
     def install_settings(self, dir):
-        # Should probably look for executable file, but whatever
-        vscode_path = os.path.join(dir, 'vscode')
-        if not os.path.exists(vscode_path):
+        if self.is_installed(dir) == False:
             print('VSCode not installed')
             return
 
@@ -87,6 +94,9 @@ class PDevTool_VSCode():
 
     def parse_args(self, args, dir):
         if args.toolcmd == 'code':
+            if not self.is_installed(dir):
+                print('VSCode not installed')
+                return
             if args.install_ext:
                 self.install_extensions(dir)
             if args.install_settings:

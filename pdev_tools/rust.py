@@ -11,6 +11,10 @@ class PDevTool_Rust():
         self.name = 'Rust'
     
     def install(self, dir):
+        if self.is_installed(dir):
+            print('Rust already installed')
+            return
+        
         print('Installing rust...')
         if platform == 'linux' or platform == 'linux2':
             print('Rust installation not supported for linux yet :(')
@@ -23,11 +27,22 @@ class PDevTool_Rust():
                 print('Rust installation failed?')
             else:
                 print('Done')
+    
+    def is_installed(self, dir):
+        try:
+            subprocess.call('rustup -V')
+            return True
+        except:
+            return False
 
     def init_argparser(self, parser):
         parser.add_parser('rust', help='Rust commands')
 
     def parse_args(self, args, dir):
+        if args.toolcmd == 'rust':
+            if not self.is_installed(dir):
+                print('Rust not installed')
+                return
         return
 
 def __init_tool():
