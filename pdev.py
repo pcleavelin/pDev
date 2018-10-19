@@ -12,7 +12,6 @@ from sys import platform
 pdev_dir = os.path.join(os.path.expanduser('~'), ('pdev'))
 sys.path.append(pdev_dir)
 
-
 import pdev_tools
 from pdev_tools import *
 
@@ -24,7 +23,7 @@ def install_tools(tools=None):
         print('Done')
     else:
         for tool in pdev_tools.all_tools:
-            if tool.name.lower() in tools:
+            if tool.cli_name.lower() in tools:
                 tool.install(pdev_dir)
 
 

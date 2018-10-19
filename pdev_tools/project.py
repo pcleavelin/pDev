@@ -9,6 +9,7 @@ class PDevTool_Project():
 
     def __init__(self):
         self.name = 'Project'
+        self.cli_name = 'project'
     
     def install(self, dir):
         # Nothing to install

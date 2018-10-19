@@ -24,7 +24,7 @@ This script is only to make my life easier when developing and/or setting up a n
 + dotnet cli
 + ffmpeg
 + vlc
-+ sublime (+sublime merge)
++ ~~sublime (+sublime merge)~~
 + iTerm2 (macOS)
 + python
 + fish (linux)

@@ -9,6 +9,7 @@ class PDevTool_Rust():
 
     def __init__(self):
         self.name = 'Rust'
+        self.cli_name = 'rust'
     
     def install(self, dir):
         if self.is_installed(dir):

@@ -11,7 +11,7 @@ class PDevTool_VSCode():
 
     def __init__(self):
         self.name = 'VSCode'
-        self.path = 'vscode'
+        self.cli_name = 'code'
     
     def install(self, dir):
         if self.is_installed(dir):
