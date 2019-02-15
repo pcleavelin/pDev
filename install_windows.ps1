@@ -57,7 +57,9 @@ cd $directory_path
 # Create cmd
 Out-File pdev.cmd -encoding ascii
 "@echo off" | Out-File pdev.cmd -encoding ascii
+"pushd $directory_path" | Out-File pdev.cmd -encoding ascii
 "python\\python.exe pdev.py %*" | Out-File pdev.cmd -encoding ascii -Append
+"popd" | Out-File pdev.cmd -encoding ascii
 
 # Add to Path
 $oldEnvPath = (Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment' -Name PATH).Path
